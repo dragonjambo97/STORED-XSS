@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const sanitizeHtml = require('sanitize-html');
 
 let storedInputs = []; // Tablica do przechowywania danych
 
@@ -34,7 +35,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/store', (req, res) => {
-  storedInputs.push(req.body.input); // Zapisz dane wejściowe
+  const cleanInput = sanitizeHtml(req.body.input); //oczyszczanie danych wejściowych
+  storedInputs.push(cleanInput);
   res.redirect('/stored');
 });
 
